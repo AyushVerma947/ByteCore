@@ -1,17 +1,55 @@
 import React from 'react';
 
 const Home = () => {
+  const products = [
+    {
+      id: 1,
+      name: "Wireless Headphones",
+      price: 59.99,
+      description: "High-quality wireless headphones with noise cancellation.",
+      image: "https://via.placeholder.com/150",
+    },
+    {
+      id: 2,
+      name: "Smart Watch",
+      price: 199.99,
+      description: "A smart watch with fitness tracking and heart rate monitor.",
+      image: "https://via.placeholder.com/150",
+    },
+    {
+      id: 3,
+      name: "Laptop Stand",
+      price: 29.99,
+      description: "Ergonomic laptop stand for comfortable working.",
+      image: "https://via.placeholder.com/150",
+    },
+    {
+      id: 4,
+      name: "Portable Charger",
+      price: 25.99,
+      description: "A compact power bank to charge your devices on the go.",
+      image: "https://via.placeholder.com/150",
+    },
+    {
+      id: 5,
+      name: "Bluetooth Speaker",
+      price: 49.99,
+      description: "Wireless Bluetooth speaker with great sound quality.",
+      image: "https://via.placeholder.com/150",
+    },
+  ];
+
   return (
-    <div className="flex flex-col justify-center items-center h-screen bg-gray-100">
-      <h1 className="text-4xl font-bold mb-4">Welcome to Byte Core!</h1>
-      <p className="text-lg mb-2">Your one-stop solution for laptop retail.</p>
-      <p className="text-lg mb-6">Sign up to explore our range of products!</p>
-      <a
-        href="/signup"
-        className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
-      >
-        Sign Up Now
-      </a>
+    <div>
+      <h1>Products</h1>
+      {products.map(product => (
+        <div key={product.id}>
+          <img src={product.image} alt={product.name} />
+          <h3>{product.name}</h3>
+          <p>Price: ${product.price.toFixed(2)}</p>
+          <p>{product.description}</p>
+        </div>
+      ))}
     </div>
   );
 };
