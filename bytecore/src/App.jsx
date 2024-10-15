@@ -10,6 +10,7 @@ import ProductDetail from './components/ProductDetail';
 import Cart from './components/Cart';
 import SignOutConfirmation from './components/SignOutConfirmation'; // Import the confirmation component
 import LandingPage from './components/LandingPage';
+import AddProduct from './components/AddProduct';
 
 import { CartProvider } from './contexts/CartContext';
 import { AuthProvider } from './contexts/AuthContext'; // Import AuthProvider
@@ -28,7 +29,7 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/sign-out-confirmation" component={SignOutConfirmation} />
-
+          <Route path="/add-product" element={<AddProduct />} />
           <Route path="/login" element={<Login />} />
           <Route path="/products" element={<Products />} />
           <Route path="/home" element={<Home />} />
