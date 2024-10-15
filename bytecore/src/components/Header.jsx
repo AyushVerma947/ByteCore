@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext'; // Import useAuth hook
 
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const { isSignedIn, userRole, signOut } = useAuth(); // Access auth state and userRole
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -17,7 +19,6 @@ const Header = () => {
         <h1 className="text-2xl font-bold">
           <Link to="/">Byte Core</Link>
         </h1>
-
 
         {/* Search Bar */}
         <form onSubmit={handleSearch} className="flex items-center space-x-2">
@@ -34,12 +35,10 @@ const Header = () => {
           >
             Search
           </button>
-
         </form>
 
-        
         {/* Navigation Links */}
-        <nav className="flex space-x-6">
+        <nav className="flex space-x-6 items-center">
           <Link to="/" className="hover:text-gray-300">
             Home
           </Link>
@@ -49,9 +48,31 @@ const Header = () => {
           <Link to="/cart" className="hover:text-gray-300">
             Cart
           </Link>
-          <Link to="/signout" className="hover:text-gray-300">
-            Signout
-          </Link>
+
+          {/* Conditionally render Add Product and Sign In/Sign Out */}
+          {isSignedIn ? (
+            <>
+              {userRole === 'seller' && ( // Check if the user is a seller
+                <Link to="/add-product">
+                  <button className="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 transition-colors">
+                    Add Product
+                  </button>
+                </Link>
+              )}
+              <button
+                onClick={signOut}
+                className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition-colors"
+              >
+                Sign Out
+              </button>
+            </>
+          ) : (
+            <Link to="/login">
+              <button className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-colors">
+                Sign In
+              </button>
+            </Link>
+          )}
         </nav>
       </div>
     </header>

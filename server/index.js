@@ -5,7 +5,6 @@ const User = require('./models/Users');
 const cors = require('cors');
 require('dotenv').config();
 
-
 const app = express();
 
 // Middleware
@@ -17,14 +16,38 @@ connectDB();
 
 // User registration route
 app.post('/signup', async (req, res) => {
-    const { fullName, email, password } = req.body;
+    const { fullName, email, password ,isSeller } = req.body;
 
     try {
-        const newUser = new User({ fullName, email, password });
+        const newUser = new User({ fullName, email, password ,isSeller}); // Store password in plaintext
         await newUser.save();
         res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
         console.error('Error registering user:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+// User login route
+app.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        // Find the user by email
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ error: 'Invalid email or password' });
+        }
+
+        // Check if the password matches
+        if (user.password !== password) { // Compare plaintext password
+            return res.status(400).json({ error: 'Invalid email or password' });
+        }
+
+        // If the login is successful, you might want to return a success message or token
+        res.status(200).json({ message: 'Login successful' });
+    } catch (error) {
+        console.error('Error logging in:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 });

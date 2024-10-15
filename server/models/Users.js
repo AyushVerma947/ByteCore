@@ -15,6 +15,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    isSeller: {
+        type : Boolean,
+    }
 });
 
 // Create a User model based on the schema

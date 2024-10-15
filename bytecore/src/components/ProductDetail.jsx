@@ -1,9 +1,12 @@
+// ProductDetail.js
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext'; // Import the useCart hook
+import { useAuth } from '../contexts/AuthContext'; // Import the useAuth hook
 
 const ProductDetail = () => {
-  const { addToCart, removeFromCart, updateCartQuantity, cartItems } = useCart(); 
+  const { addToCart, removeFromCart, updateCartQuantity, cartItems } = useCart();
+  const { isSignedIn } = useAuth(); // Get the isSignedIn state from Auth context
 
   // Dummy product data
   const products = [
@@ -114,13 +117,17 @@ const ProductDetail = () => {
           </div>
 
           <button
-            onClick={handleCartAction}
-            className={`mt-4 px-4 py-2 rounded-lg ${isInCart ? 'bg-red-500 text-white' : 'bg-green-500 text-white'} hover:bg-opacity-80 transition-colors`}
+            onClick={isSignedIn ? handleCartAction : undefined} // Disable action if not signed in
+            className={`mt-4 px-4 py-2 rounded-lg ${isInCart ? 'bg-red-500 text-white' : 'bg-green-500 text-white'} ${isSignedIn ? '' : 'opacity-50 cursor-not-allowed'} hover:bg-opacity-80 transition-colors`}
+            disabled={!isSignedIn} // Disable button if not signed in
           >
             {isInCart 
               ? (quantity > 1 ? 'Update Cart' : 'Remove from Cart') 
               : 'Add to Cart'}
           </button>
+
+          {/* Optional message for users not signed in */}
+          {!isSignedIn && <p className="mt-2 text-red-500">You must be signed in to add items to the cart.</p>}
         </div>
       </div>
     </div>

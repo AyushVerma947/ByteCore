@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
-
 const Signup = () => {
-
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate(); // Add this line to initialize navigate
-
+  const [isSeller, setIsSeller] = useState(false); // State to track if user is a seller
+  const navigate = useNavigate(); // Initialize navigate
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,6 +15,7 @@ const Signup = () => {
       fullName: fullName,
       email: email,
       password: password,
+      isSeller: isSeller, // Include seller status in the user data
     };
 
     try {
@@ -26,7 +25,6 @@ const Signup = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(userData),
-
       });
 
       const data = await response.json();
@@ -34,7 +32,6 @@ const Signup = () => {
       if (response.ok) {
         alert('Signup successful!');
         console.log(data); // Log the response from the server
-        // Optionally, you can reset the form or redirect the user here
         navigate('/'); // Redirect to the homepage
       } else {
         alert('Error: ' + data.error);
@@ -87,6 +84,19 @@ const Signup = () => {
             required
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+        </div>
+
+        {/* Seller Option */}
+        <div className="mb-4">
+          <label className="block text-gray-700">
+            <input
+              type="checkbox"
+              checked={isSeller}
+              onChange={() => setIsSeller(!isSeller)}
+              className="mr-2"
+            />
+            Are you a seller?
+          </label>
         </div>
         
         <button
