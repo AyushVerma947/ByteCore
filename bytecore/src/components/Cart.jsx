@@ -2,21 +2,27 @@ import React, { useState } from 'react';
 import { useCart } from '../contexts/CartContext';
 
 const Cart = () => {
-  const { cartItems, removeFromCart, updateCartQuantity } = useCart();
+  const { cartItems, removeFromCart, updateCartQuantity , getQuantity } = useCart();
   const [quantities, setQuantities] = useState(
     cartItems.reduce((acc, product) => {
-      acc[product.id] = product.quantity; // Initialize quantities state
+      acc[product._id] = product.quantity; // Initialize quantities state
       return acc;
     }, {})
   );
 
   const handleQuantityChange = (productId, newQuantity) => {
     if (newQuantity > 0) {
+      // console.log('qqq---')
+      // console.log(newQuantity)
       setQuantities((prevQuantities) => ({
         ...prevQuantities,
         [productId]: newQuantity,
       }));
-      updateCartQuantity(productId, newQuantity); // Update quantity in the cart
+      updateCartQuantity(productId, newQuantity) // Update quantity in the cart
+      // console.log('aaa---')
+      // console.log(productId)
+      // console.log(getQuantity(productId))
+
     }
   };
 
@@ -32,11 +38,11 @@ const Cart = () => {
       ) : (
         <ul>
           {cartItems.map((product) => (
-            <li key={product.id} className="flex justify-between items-center border-b py-2">
+            <li key={product._id} className="flex justify-between items-center border-b py-2">
               <span>{product.name}</span>
               <div className="flex items-center">
                 <button
-                  onClick={() => handleQuantityChange(product.id, quantities[product.id] - 1)}
+                  onClick={() => handleQuantityChange(product._id, quantities[product._id] - 1)}
                   className="px-2 py-1 bg-gray-200 rounded-l"
                 >
                   -
@@ -44,21 +50,21 @@ const Cart = () => {
                 <input
                   type="number"
                   min="1"
-                  value={quantities[product.id]}
+                  value={quantities[product._id]}
                   onChange={(e) =>
-                    handleQuantityChange(product.id, parseInt(e.target.value, 10))
+                    handleQuantityChange(product._id, parseInt(e.target.value, 10))
                   }
                   className="w-12 text-center border border-gray-300 px-2 py-1"
                 />
                 <button
-                  onClick={() => handleQuantityChange(product.id, quantities[product.id] + 1)}
+                  onClick={() => handleQuantityChange(product._id, quantities[product._id] + 1)}
                   className="px-2 py-1 bg-gray-200 rounded-r"
                 >
                   +
                 </button>
               </div>
               <button
-                onClick={() => removeFromCart(product.id)}
+                onClick={() => removeFromCart(product._id)}
                 className="text-red-500 hover:underline ml-4"
               >
                 Remove

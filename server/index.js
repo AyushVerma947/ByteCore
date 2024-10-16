@@ -15,6 +15,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json()); // Parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Create uploads directory if it doesn't exist
 const uploadsDir = path.join(__dirname, 'uploads');
@@ -94,7 +95,7 @@ app.post('/add-product', upload.single('image'), async (req, res) => {
     } = req.body;
 
     // Access the uploaded file
-    const image = req.file ? req.file.path : ''; // Get the image path from the uploaded file
+    const image = req.file ? `/uploads/${req.file.filename}` : ''; // Store relative path
 
     try {
         const newProduct = new Product({
@@ -129,7 +130,23 @@ app.get('/products', async (req, res) => {
         res.status(500).json({ error: 'Failed to retrieve products', message: error.message });
     }
 });
+app.get('/products/:id', async (req, res) => {
+    const productId = req.params.id;
+    // console.log(productId);
+    try {
+        // Fetch product by ID
+        const product = await Product.findById(productId);
 
+        if (product) {
+            res.status(200).json(product);
+        } else {
+            res.status(404).json({ message: 'Product not found' });
+        }
+    } catch (error) {
+        console.error('Error fetching product:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
 // Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

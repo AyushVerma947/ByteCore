@@ -1,61 +1,71 @@
-// CartContext.js
+// src/contexts/CartContext.js
+
 import React, { createContext, useContext, useState } from 'react';
 
-// Create the CartContext
+// Create CartContext
 const CartContext = createContext();
+
+// Custom hook to use the CartContext
+export const useCart = () => {
+  return useContext(CartContext);
+};
 
 // CartProvider component
 export const CartProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState([]); // State to hold cart items
 
-  const addToCart = (product) => {
-    // Check if product is already in the cart
-    const existingProduct = cartItems.find(item => item.id === product.id);
-    if (existingProduct) {
-      // If it exists, update the quantity
-      setCartItems((prevItems) =>
-        prevItems.map(item =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        )
-      );
-    } else {
-      // If it doesn't exist, add it to the cart with quantity 1
-      setCartItems((prevItems) => [...prevItems, { ...product, quantity: 1 }]);
-    }
+  // Function to add an item to the cart
+  const addToCart = (item) => {
+    setCartItems((prevItems) => {
+      const existingItem = prevItems.find((cartItem) => cartItem._id === item._id);
+      if (existingItem) {
+        // If item exists, update its quantity
+        return prevItems.map((cartItem) =>
+          cartItem._id === item._id ? { ...cartItem, quantity: cartItem.quantity + item.quantity } : cartItem
+        );
+      }
+      // If item doesn't exist, add it to the cart
+      return [...prevItems, item];
+    });
   };
 
-  const removeFromCart = (productId) => {
-    setCartItems((prevItems) => prevItems.filter(item => item.id !== productId));
+  // Function to remove an item from the cart
+  const removeFromCart = (id) => {
+    setCartItems((prevItems) => prevItems.filter((item) => item._id !== id));
   };
 
+  // Function to clear the cart
   const clearCart = () => {
-    setCartItems([]); // Clear the cart
+    setCartItems([]);
   };
 
-  const updateCartQuantity = (productId, newQuantity) => {
+  // Function to update the quantity of an item in the cart
+  const updateCartQuantity = (id, quantity) => {
     setCartItems((prevItems) =>
       prevItems.map((item) =>
-        item.id === productId ? { ...item, quantity: newQuantity } : item
+        item._id === id ? { ...item, quantity } : item
       )
     );
   };
 
+  // Function to get the quantity of a specific item in the cart
+  const getQuantity = (id) => {
+    const item = cartItems.find((cartItem) => cartItem._id === id);
+    return item ? item.quantity : 0; // Return quantity or 0 if not found
+  };
+
   return (
-    <CartContext.Provider value={{ 
-      cartItems, 
-      addToCart, 
-      removeFromCart, 
-      clearCart, 
-      updateCartQuantity // Expose updateCartQuantity
-    }}>
+    <CartContext.Provider
+      value={{
+        cartItems,
+        addToCart,
+        removeFromCart,
+        clearCart,
+        updateCartQuantity,
+        getQuantity,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );
-};
-
-// Custom hook to use the Cart context
-export const useCart = () => {
-  return useContext(CartContext);
 };

@@ -1,67 +1,58 @@
-// Products.jsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ProductCard from './ProductCard'; // Import the ProductCard component
 import Sidebar from './Sidebar'; // Adjust the path if necessary
+import axios from 'axios'; // Axios for making API requests
 
 const Products = () => {
-const products = [
-    {
-        id: 1,
-        name: "Gaming Laptop",
-        price: 1299.99,
-        description: "High-performance gaming laptop with RTX 3060 graphics.",
-        image: "https://th.bing.com/th/id/OIP.WCCq2nZelTZuFIRbJF7AuAHaEK?w=235&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7", // Replace with actual image URL
-    },
-    {
-        id: 2,
-        name: "Business Laptop",
-        price: 899.99,
-        description: "Lightweight business laptop with long battery life.",
-        image: "https://th.bing.com/th/id/OIP.WCCq2nZelTZuFIRbJF7AuAHaEK?w=235&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7", // Replace with actual image URL
-    },
-    {
-        id: 3,
-        name: "2-in-1 Convertible Laptop",
-        price: 749.99,
-        description: "Versatile 2-in-1 laptop with touchscreen capabilities.",
-        image: "https://th.bing.com/th/id/OIP.WCCq2nZelTZuFIRbJF7AuAHaEK?w=235&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7", // Replace with actual image URL
-    },
-    {
-        id: 4,
-        name: "Ultrabook",
-        price: 1099.99,
-        description: "Sleek ultrabook for portability and performance.",
-        image: "https://th.bing.com/th/id/OIP.WCCq2nZelTZuFIRbJF7AuAHaEK?w=235&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7", // Replace with actual image URL
-    },
-    {
-        id: 5,
-        name: "Chromebook",
-        price: 349.99,
-        description: "Affordable Chromebook for web browsing and apps.",
-        image: "https://th.bing.com/th/id/OIP.WCCq2nZelTZuFIRbJF7AuAHaEK?w=235&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7", // Replace with actual image URL
-    },
-    ];
-      
-  return (
+  const [products, setProducts] = useState([]); // State to store products
+  const [loading, setLoading] = useState(true); // Loading state
 
+  // Fetch products from the database on component mount
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/products'); // Adjust API endpoint if necessary
+        setProducts(response.data); // Set the products data from the response
+        setLoading(false); // Turn off the loading state
+      } catch (error) {
+        console.error('Failed to fetch products:', error);
+        setLoading(false); // Turn off loading state in case of error
+      }
+    };
+
+    fetchProducts(); // Call the fetch function
+  }, []); // Empty dependency array ensures this only runs on component mount
+
+  if (loading) {
+    return <div>Loading...</div>; // Show a loading message while fetching data
+  }
+
+  return (
     <div className="flex">
-    <Sidebar /> {/* Include Sidebar here */}
-    
-    {/* Main product content here */}
-    <div className="flex-1 p-4">
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold text-center mb-8">Products</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {products.map(product => (
-          <ProductCard key={product.id} product={product} /> // Use ProductCard component
-        ))}
+      <Sidebar /> {/* Include Sidebar here */}
+      
+      {/* Main product content here */}
+      <div className="flex-1 p-4">
+        <div className="container mx-auto p-4">
+          <h1 className="text-3xl font-bold text-center mb-8">Products</h1>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {products.map(product => (
+              <ProductCard 
+                key={product._id} // Use MongoDB's _id.$oid as key
+                product={{
+                  _id: product._id, // Ensure _id is included for routing
+
+                  image: `http://localhost:5000${product.image}`, // Prepend server URL to image path
+                  name: product.name,
+                  price: product.price, // Ensure price is formatted correctly
+                  description: product.description
+                }} 
+              />
+            ))}
+          </div>
+        </div>
       </div>
     </div>
-    </div>
-  </div>
-
-
-    
   );
 };
 
