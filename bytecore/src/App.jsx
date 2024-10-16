@@ -11,6 +11,7 @@ import Cart from './components/Cart';
 import SignOutConfirmation from './components/SignOutConfirmation'; // Import the confirmation component
 import LandingPage from './components/LandingPage';
 import AddProduct from './components/AddProduct';
+import Checkout from './components/Checkout';
 
 import { CartProvider } from './contexts/CartContext';
 import { AuthProvider } from './contexts/AuthContext'; // Import AuthProvider
@@ -36,6 +37,8 @@ function App() {
           <Route path="/products/:id" element={<ProductDetail />} />
           {/* <Route path="/product/:id" element={<ProductDetail />} /> */}
           <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
+
         </Routes>
       </main>
 
