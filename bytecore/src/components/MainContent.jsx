@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useEffect, useRef } from 'react';
 import ProductCard from './ProductCard'; // Adjust the import path as necessary
 
@@ -37,25 +38,70 @@ const products = [
 
 const MainContent = () => {
   const scrollRef = useRef(null);
+=======
+import React, { useEffect, useRef, useState } from 'react';
+import ProductCard from './ProductCard'; // Adjust the import path as necessary
+
+const MainContent = () => {
+  const scrollRef = useRef(null);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/products');
+        if (!response.ok) throw new Error('Failed to fetch products');
+        const data = await response.json();
+        setProducts(data);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+>>>>>>> origin/master
 
   useEffect(() => {
     const scrollItems = () => {
       if (scrollRef.current) {
         scrollRef.current.scrollBy({ left: 300, behavior: 'smooth' });
 
+<<<<<<< HEAD
         // Check if we reached the end of the items
         if (scrollRef.current.scrollLeft + scrollRef.current.clientWidth >= scrollRef.current.scrollWidth) {
           // Reset scroll position to the start
+=======
+        // Reset scroll position if it reaches the end
+        if (scrollRef.current.scrollLeft + scrollRef.current.clientWidth >= scrollRef.current.scrollWidth) {
+>>>>>>> origin/master
           scrollRef.current.scrollLeft = 0;
         }
       }
     };
 
+<<<<<<< HEAD
     const intervalId = setInterval(scrollItems, 3000); // Scroll every 3 seconds
 
     return () => clearInterval(intervalId); // Cleanup on unmount
   }, []);
 
+=======
+    const intervalId = setInterval(scrollItems, 3000); // Auto-scroll every 3 seconds
+    return () => clearInterval(intervalId);
+  }, []);
+
+  // Loading state
+  if (loading) return <div>Loading products...</div>;
+
+  // Error state
+  if (error) return <div>Error: {error}</div>;
+
+>>>>>>> origin/master
   return (
     <main className="container mx-auto py-12 px-6">
       {/* Hero Section */}
@@ -95,16 +141,46 @@ const MainContent = () => {
         <div
           ref={scrollRef}
           className="overflow-hidden whitespace-nowrap"
+<<<<<<< HEAD
           style={{ width: '100%' }} // Limit to 3 items at a time
+=======
+          style={{ width: '100%' }}
+>>>>>>> origin/master
         >
           <div className="inline-flex space-x-4" style={{ minWidth: 'max-content' }}>
             {/* Map through the products array and render ProductCard for each product */}
             {products.map((product) => (
+<<<<<<< HEAD
               <ProductCard key={product.id} product={product} />
             ))}
             {/* Duplicate the products to create a circular effect */}
             {products.map((product) => (
               <ProductCard key={product.id + 100} product={product} />
+=======
+              <ProductCard
+                key={product._id}
+                product={{
+                  _id: product._id,
+                  image: `http://localhost:5000${product.image}`,
+                  name: product.name,
+                  price: product.price,
+                  description: product.description,
+                }}
+              />
+            ))}
+            {/* Duplicate the products to create a circular effect */}
+            {products.map((product) => (
+              <ProductCard
+                key={`${product._id}-duplicate`} // Ensure uniqueness
+                product={{
+                  _id: product._id,
+                  image: `http://localhost:5000${product.image}`,
+                  name: product.name,
+                  price: product.price,
+                  description: product.description,
+                }}
+              />
+>>>>>>> origin/master
             ))}
           </div>
         </div>

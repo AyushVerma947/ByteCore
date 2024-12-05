@@ -94,4 +94,8 @@ const Cart = () => {
   );
 };
 
+<<<<<<< HEAD
 export default Cart;
+=======
+export default Cart;
+>>>>>>> origin/master
