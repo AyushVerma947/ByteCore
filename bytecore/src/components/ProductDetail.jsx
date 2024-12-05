@@ -1,31 +1,16 @@
-<<<<<<< HEAD
-// src/components/ProductDetail.js
-
-import React, { useEffect, useState } from 'react';
-import { useCart } from '../contexts/CartContext';
-import { useParams } from 'react-router-dom';
-=======
 import React, { useEffect, useState } from 'react';
 import { useCart } from '../contexts/CartContext';
 import { useParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext'; // Import the useAuth hook
->>>>>>> origin/master
 
 const ProductDetail = () => {
   const { id } = useParams(); // Get product ID from URL parameters
   const { addToCart, updateCartQuantity, getQuantity } = useCart();
-<<<<<<< HEAD
-  
-  const [product, setProduct] = useState(null);
-  const [quantity, setQuantity] = useState(1);
-  
-=======
   const { isSignedIn } = useAuth(); // Get the isSignedIn state from Auth context
 
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
 
->>>>>>> origin/master
   // Fetch product data from the backend
   useEffect(() => {
     const fetchProduct = async () => {
@@ -39,11 +24,6 @@ const ProductDetail = () => {
         console.error(error);
       }
     };
-<<<<<<< HEAD
-    
-=======
-
->>>>>>> origin/master
     fetchProduct();
   }, [id, getQuantity]);
 
@@ -75,27 +55,6 @@ const ProductDetail = () => {
           <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
           <p className="text-lg text-gray-800 mb-4">Price: ${product.price.toFixed(2)}</p>
 
-<<<<<<< HEAD
-          <h2 className="text-xl font-semibold mb-2">Specifications:</h2>
-          <ul className="list-disc list-inside mb-4">
-            {product.specifications && product.specifications.map((spec, index) => (
-              <li key={index}>{spec}</li>
-            ))}
-          </ul>
-
-          <h2 className="text-xl font-semibold mb-2">Features:</h2>
-          <ul className="list-disc list-inside mb-4">
-            {product.features && product.features.map((feature, index) => (
-              <li key={index}>{feature}</li>
-            ))}
-          </ul>
-
-          <h2 className="text-xl font-semibold mb-2">Reviews:</h2>
-          {product.reviews && product.reviews.map((review, index) => (
-            <p key={index} className="mb-4">{review}</p>
-          ))}
-
-=======
           {/* Added product description */}
           <p className="text-md text-gray-600 mb-4">{product.description}</p>
 
@@ -111,7 +70,6 @@ const ProductDetail = () => {
             {product.operatingSystem && <li><strong>Operating System:</strong> {product.operatingSystem}</li>}
           </ul>
 
->>>>>>> origin/master
           <div className="flex items-center mb-4">
             <label htmlFor="quantity" className="mr-2">Quantity:</label>
             <input
@@ -125,13 +83,6 @@ const ProductDetail = () => {
           </div>
 
           <button
-<<<<<<< HEAD
-            onClick={handleCartAction}
-            className={`mt-4 px-4 py-2 rounded-lg ${isInCart ? 'bg-red-500 text-white' : 'bg-green-500 text-white'} hover:bg-opacity-80 transition-colors`}
-          >
-            {isInCart ? (quantity > 1 ? 'Update Quantity' : 'Remove from Cart') : 'Add to Cart'}
-          </button>
-=======
             onClick={isSignedIn ? handleCartAction : undefined} // Disable action if not signed in
             className={`mt-4 px-4 py-2 rounded-lg ${isInCart ? 'bg-red-500' : 'bg-green-500'} text-white ${isSignedIn ? '' : 'opacity-50 cursor-not-allowed'} hover:bg-opacity-80 transition-colors`}
             disabled={!isSignedIn} // Disable button if not signed in
@@ -143,7 +94,6 @@ const ProductDetail = () => {
 
           {/* Optional message for users not signed in */}
           {!isSignedIn && <p className="mt-2 text-red-500">You must be signed in to add items to the cart.</p>}
->>>>>>> origin/master
         </div>
       </div>
     </div>

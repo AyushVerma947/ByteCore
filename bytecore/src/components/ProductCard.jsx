@@ -3,11 +3,7 @@ import { Link } from 'react-router-dom';
 
 const ProductCard = ({ product }) => {
   const { _id, image, name, price, description } = product;
-<<<<<<< HEAD
-  // console.log(_id)
-=======
   console.log(_id)
->>>>>>> origin/master
   return (
     <Link to={`/products/${_id}`} className="border rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow">
       <img src={image} alt={name} className="w-full h-48 object-cover mb-4" />

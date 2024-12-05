@@ -1,44 +1,3 @@
-<<<<<<< HEAD
-import React, { useEffect, useRef } from 'react';
-import ProductCard from './ProductCard'; // Adjust the import path as necessary
-
-// Sample products array
-const products = [
-  {
-    id: 1,
-    name: "Gaming Laptop",
-    price: 1599.99,
-    image: "https://via.placeholder.com/400/0000FF/FFFFFF?text=Gaming+Laptop",
-  },
-  {
-    id: 2,
-    name: "Business Laptop",
-    price: 999.99,
-    image: "https://via.placeholder.com/400/FF0000/FFFFFF?text=Business+Laptop",
-  },
-  {
-    id: 3,
-    name: "Ultrabook",
-    price: 1299.99,
-    image: "https://via.placeholder.com/400/00FF00/FFFFFF?text=Ultrabook",
-  },
-  {
-    id: 4,
-    name: "2-in-1 Laptop",
-    price: 899.99,
-    image: "https://via.placeholder.com/400/FFFF00/FFFFFF?text=2-in-1+Laptop",
-  },
-  {
-    id: 5,
-    name: "Student Laptop",
-    price: 499.99,
-    image: "https://via.placeholder.com/400/FF00FF/FFFFFF?text=Student+Laptop",
-  },
-];
-
-const MainContent = () => {
-  const scrollRef = useRef(null);
-=======
 import React, { useEffect, useRef, useState } from 'react';
 import ProductCard from './ProductCard'; // Adjust the import path as necessary
 
@@ -64,33 +23,19 @@ const MainContent = () => {
 
     fetchProducts();
   }, []);
->>>>>>> origin/master
 
   useEffect(() => {
     const scrollItems = () => {
       if (scrollRef.current) {
         scrollRef.current.scrollBy({ left: 300, behavior: 'smooth' });
 
-<<<<<<< HEAD
-        // Check if we reached the end of the items
-        if (scrollRef.current.scrollLeft + scrollRef.current.clientWidth >= scrollRef.current.scrollWidth) {
-          // Reset scroll position to the start
-=======
         // Reset scroll position if it reaches the end
         if (scrollRef.current.scrollLeft + scrollRef.current.clientWidth >= scrollRef.current.scrollWidth) {
->>>>>>> origin/master
           scrollRef.current.scrollLeft = 0;
         }
       }
     };
 
-<<<<<<< HEAD
-    const intervalId = setInterval(scrollItems, 3000); // Scroll every 3 seconds
-
-    return () => clearInterval(intervalId); // Cleanup on unmount
-  }, []);
-
-=======
     const intervalId = setInterval(scrollItems, 3000); // Auto-scroll every 3 seconds
     return () => clearInterval(intervalId);
   }, []);
@@ -101,7 +46,6 @@ const MainContent = () => {
   // Error state
   if (error) return <div>Error: {error}</div>;
 
->>>>>>> origin/master
   return (
     <main className="container mx-auto py-12 px-6">
       {/* Hero Section */}
@@ -141,22 +85,11 @@ const MainContent = () => {
         <div
           ref={scrollRef}
           className="overflow-hidden whitespace-nowrap"
-<<<<<<< HEAD
-          style={{ width: '100%' }} // Limit to 3 items at a time
-=======
           style={{ width: '100%' }}
->>>>>>> origin/master
         >
           <div className="inline-flex space-x-4" style={{ minWidth: 'max-content' }}>
             {/* Map through the products array and render ProductCard for each product */}
             {products.map((product) => (
-<<<<<<< HEAD
-              <ProductCard key={product.id} product={product} />
-            ))}
-            {/* Duplicate the products to create a circular effect */}
-            {products.map((product) => (
-              <ProductCard key={product.id + 100} product={product} />
-=======
               <ProductCard
                 key={product._id}
                 product={{
@@ -180,7 +113,6 @@ const MainContent = () => {
                   description: product.description,
                 }}
               />
->>>>>>> origin/master
             ))}
           </div>
         </div>

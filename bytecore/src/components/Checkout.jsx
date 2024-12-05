@@ -160,8 +160,4 @@ const Checkout = () => {
   );
 };
 
-<<<<<<< HEAD
 export default Checkout;
-=======
-export default Checkout;
->>>>>>> origin/master

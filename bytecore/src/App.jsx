@@ -38,10 +38,6 @@ function App() {
           {/* <Route path="/product/:id" element={<ProductDetail />} /> */}
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
         </Routes>
       </main>
 

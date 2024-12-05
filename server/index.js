@@ -138,10 +138,7 @@ app.get('/products/:id', async (req, res) => {
         const product = await Product.findById(productId);
 
         if (product) {
-<<<<<<< HEAD
-=======
             console.log(product)
->>>>>>> origin/master
             res.status(200).json(product);
         } else {
             res.status(404).json({ message: 'Product not found' });
